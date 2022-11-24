@@ -1,0 +1,44 @@
+plugins {
+    id 'java-library'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+allprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    group = 'pl.spaceis.plugin'
+    version = '1.0'
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    compileJava.options.encoding = 'UTF-8'
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+
+        maven {
+            name = 'spigotmc-repo'
+            url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+        }
+    }
+
+    shadowJar {
+        dependencies {
+            exclude(dependency('org.jetbrains:annotations'))
+        }
+
+        relocate 'kotlin', 'lib.kotlin'
+        relocate 'okhttp3', 'lib.okhttp3'
+        relocate 'okio', 'lib.okio'
+    }
+}
+
+dependencies {
+    implementation project(':bukkit')
+}

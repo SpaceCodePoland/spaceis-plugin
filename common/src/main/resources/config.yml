@@ -1,0 +1,11 @@
+# Klucz serwera z panelu SpaceIs.pl > Serwery > Zarządzanie
+serverKey: ''
+
+# ID serwera z panelu SpaceIs.pl > Serwery > Zarządzanie
+serverId: ''
+
+# Klucz API konta z panelu SpaceIs.pl > Zarządzanie licencją
+apiKey: ''
+
+# Link do API, najlepiej pozostawić domyślny
+apiUri: 'https://api.spaceis.pl/v4'
