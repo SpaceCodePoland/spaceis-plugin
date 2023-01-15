@@ -21,18 +21,50 @@ import java.time.temporal.ChronoUnit;
 
 public class Config {
 
-    public final String serverKey;
-    public final String serverId;
-    public final String apiKey;
-    public final String apiUrl;
+    private final ConfigLoader configLoader;
+
+    private String serverKey;
+    private String serverId;
+    private String apiKey;
+    private String apiUrl;
+    private boolean debug;
 
     public final Duration taskInterval = Duration.of(60, ChronoUnit.SECONDS);
 
-    public Config(final String serverKey, final String serverId, final String apiKey, final String apiUrl) throws EmptyConfigFieldException {
-        this.serverKey = serverKey;
-        this.serverId = serverId;
-        this.apiKey = apiKey;
-        this.apiUrl = apiUrl;
+    public Config(final ConfigLoader configLoader) throws EmptyConfigFieldException {
+        this.configLoader = configLoader;
+        this.loadValues();
+    }
+
+    public String getServerKey() {
+        return this.serverKey;
+    }
+
+    public String getServerId() {
+        return this.serverId;
+    }
+
+    public String getApiKey() {
+        return this.apiKey;
+    }
+
+    public String getApiUrl() {
+        return this.apiUrl;
+    }
+
+    public boolean isDebugEnabled() {
+        return this.debug;
+    }
+
+    public void loadValues() throws EmptyConfigFieldException {
+        this.configLoader.reloadConfig();
+
+        this.serverKey = this.configLoader.getString("serverKey");
+        this.serverId = this.configLoader.getString("serverId");
+        this.apiKey = this.configLoader.getString("apiKey");
+        this.apiUrl = this.configLoader.getString("apiUri");
+        this.debug = this.configLoader.getBoolean("debug");
+
         this.checkValues();
     }
 

@@ -19,6 +19,7 @@ package pl.spaceis.plugin.command;
 import java.util.Arrays;
 import okhttp3.OkHttpClient;
 import pl.spaceis.plugin.config.Config;
+import pl.spaceis.plugin.logger.SpaceIsLogger;
 import pl.spaceis.plugin.request.GetCommandsRequest;
 import pl.spaceis.plugin.request.RequestException;
 import pl.spaceis.plugin.request.RestoreCommandRequest;
@@ -27,15 +28,13 @@ public abstract class CommandsTask implements Runnable {
 
     private final GetCommandsRequest getCommandsRequest;
     private final RestoreCommandRequest restoreCommandRequest;
+    private final SpaceIsLogger logger;
 
-    protected CommandsTask(final OkHttpClient httpClient, final Config config) {
-        this.getCommandsRequest = new GetCommandsRequest(httpClient, config);
-        this.restoreCommandRequest = new RestoreCommandRequest(httpClient, config);
+    protected CommandsTask(final OkHttpClient httpClient, final Config config, final SpaceIsLogger logger) {
+        this.getCommandsRequest = new GetCommandsRequest(httpClient, config, logger);
+        this.restoreCommandRequest = new RestoreCommandRequest(httpClient, config, logger);
+        this.logger = logger;
     }
-
-    public abstract void logInfo(final String message);
-
-    public abstract void logError(final String message);
 
     public abstract boolean isPlayerOnline(final String playerName);
 
@@ -51,8 +50,8 @@ public abstract class CommandsTask implements Runnable {
 
             Arrays.stream(response.getData()).forEach(this::processCommand);
         } catch (final RequestException exception) {
-            this.logError("Nieudane pobranie oczekujących komend ze SpaceIs");
-            this.logError("Przyczyna: " + exception.getMessage());
+            this.logger.error("Nieudane pobranie oczekujących komend ze SpaceIs");
+            this.logger.error("Przyczyna: " + exception.getMessage());
         }
     }
 
@@ -61,15 +60,15 @@ public abstract class CommandsTask implements Runnable {
             try {
                 this.restoreCommandRequest.restore(commandData.getId());
             } catch (final RequestException exception) {
-                this.logError("Nieudane przywrócenie niewykonanej komendy w SpaceIs");
-                this.logError("Przyczyna: " + exception.getMessage());
+                this.logger.error("Nieudane przywrócenie niewykonanej komendy w SpaceIs");
+                this.logger.error("Przyczyna: " + exception.getMessage());
             }
 
             return;
         }
 
         final String command = commandData.getCommand();
-        this.logInfo(String.format("Wykonywanie komendy o id %s: %s", commandData.getId(), command));
+        this.logger.info(String.format("Wykonywanie komendy o id %s: %s", commandData.getId(), command));
         this.executeCommand(command);
     }
 

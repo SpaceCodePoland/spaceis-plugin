@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Kamil Trysiński
+ * Copyright (C) 2023 Kamil Trysiński
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,30 +16,31 @@
 
 package pl.spaceis.plugin.bukkit;
 
-import okhttp3.OkHttpClient;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import pl.spaceis.plugin.command.CommandsTask;
-import pl.spaceis.plugin.config.Config;
-import pl.spaceis.plugin.logger.SpaceIsLogger;
+import pl.spaceis.plugin.config.ConfigLoader;
 
-public class BukkitCommandsTask extends CommandsTask {
+public class BukkitConfigLoader implements ConfigLoader {
 
     private final Plugin plugin;
 
-    public BukkitCommandsTask(final Plugin plugin, final OkHttpClient httpClient, final Config config, final SpaceIsLogger logger) {
-        super(httpClient, config, logger);
+    public BukkitConfigLoader(final Plugin plugin) {
         this.plugin = plugin;
     }
 
     @Override
-    public boolean isPlayerOnline(final String playerName) {
-        return Bukkit.getPlayerExact(playerName) != null;
+    public void reloadConfig() {
+        this.plugin.saveDefaultConfig();
+        this.plugin.reloadConfig();
     }
 
     @Override
-    public void executeCommand(final String command) {
-        Bukkit.getScheduler().runTask(this.plugin, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
+    public boolean getBoolean(final String key) {
+        return this.plugin.getConfig().getBoolean(key);
+    }
+
+    @Override
+    public String getString(final String key) {
+        return this.plugin.getConfig().getString(key);
     }
 
 }

@@ -18,10 +18,11 @@ package pl.spaceis.plugin.bukkit;
 
 import okhttp3.OkHttpClient;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.spaceis.plugin.config.Config;
+import pl.spaceis.plugin.config.ConfigLoader;
 import pl.spaceis.plugin.config.EmptyConfigFieldException;
+import pl.spaceis.plugin.logger.SpaceIsLogger;
 
 public class BukkitSpaceIsPlugin extends JavaPlugin {
 
@@ -29,29 +30,23 @@ public class BukkitSpaceIsPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.saveDefaultConfig();
-
-        final Config config;
         try {
-            final FileConfiguration cfgFile = this.getConfig();
-            config = new Config(
-                    cfgFile.getString("serverKey"),
-                    cfgFile.getString("serverId"),
-                    cfgFile.getString("apiKey"),
-                    cfgFile.getString("apiUri")
+            final SpaceIsLogger logger = new BukkitSpaceIsLogger(this.getLogger());
+            final ConfigLoader configLoader = new BukkitConfigLoader(this);
+            final Config config = new Config(configLoader);
+
+            Bukkit.getScheduler().runTaskTimerAsynchronously(
+                    this,
+                    new BukkitCommandsTask(this, this.httpClient, config, logger),
+                    0L,
+                    config.taskInterval.getSeconds() * 20L
             );
+
+            this.getCommand("spaceis").setExecutor(new SpaceIsCommand(config));
         } catch (final EmptyConfigFieldException exception) {
             this.getLogger().severe(exception.getMessage());
             Bukkit.getPluginManager().disablePlugin(this);
-            return;
         }
-
-        Bukkit.getScheduler().runTaskTimerAsynchronously(
-                this,
-                new BukkitCommandsTask(this, this.httpClient, config),
-                0L,
-                config.taskInterval.getSeconds() * 20L
-        );
     }
 
     @Override

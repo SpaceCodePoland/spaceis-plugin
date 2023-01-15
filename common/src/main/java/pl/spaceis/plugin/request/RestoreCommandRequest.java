@@ -23,6 +23,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import pl.spaceis.plugin.config.Config;
+import pl.spaceis.plugin.logger.SpaceIsLogger;
 
 public class RestoreCommandRequest extends SpaceIsRequest {
 
@@ -31,21 +32,35 @@ public class RestoreCommandRequest extends SpaceIsRequest {
 
     private final OkHttpClient httpClient;
     private final Config config;
+    private final SpaceIsLogger logger;
 
-    public RestoreCommandRequest(final OkHttpClient httpClient, final Config config) {
+    public RestoreCommandRequest(final OkHttpClient httpClient, final Config config, final SpaceIsLogger logger) {
         this.httpClient = httpClient;
         this.config = config;
+        this.logger = logger;
     }
 
     public void restore(final UUID commandId) throws RequestException {
         final Request request = this.preparePostRequest(
                 this.getRequestUrl(commandId),
-                this.config.apiKey,
-                this.config.serverKey,
+                this.config.getApiKey(),
+                this.config.getServerKey(),
                 REQUEST_BODY
         );
 
+        if (this.config.isDebugEnabled()) {
+            this.logger.debug(String.format("Sending POST request to url: %s", request.url()));
+            this.logger.debug(String.format("Attaching API key: %s", this.config.getApiKey()));
+            this.logger.debug(String.format("Attaching server token: %s", this.config.getServerKey()));
+        }
+
         try (final Response response = this.httpClient.newCall(request).execute()) {
+            final String responseBody = response.body() != null ? response.body().string() : null;
+
+            if (this.config.isDebugEnabled()) {
+                this.logger.debug(String.format("Response for POST request: %s", responseBody));
+            }
+
             if (!response.isSuccessful()) {
                 throw new RequestException("Otrzymany kod odpowiedzi " + response.code());
             }
@@ -55,7 +70,13 @@ public class RestoreCommandRequest extends SpaceIsRequest {
     }
 
     private String getRequestUrl(final UUID commandId) throws RequestException {
-        return this.getUrlString(String.format("%s/server/%s/commands/%s/restore", this.config.apiUrl, this.config.serverId, commandId));
+        final String rawUrl = String.format(
+                "%s/server/%s/commands/%s/restore",
+                this.config.getApiUrl(),
+                this.config.getServerId(),
+                commandId
+        );
+        return this.getUrlString(rawUrl);
     }
 
 }

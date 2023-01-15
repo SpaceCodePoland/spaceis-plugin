@@ -22,43 +22,57 @@ import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 import pl.spaceis.plugin.command.CommandsResponse;
 import pl.spaceis.plugin.config.Config;
+import pl.spaceis.plugin.logger.SpaceIsLogger;
 
 public class GetCommandsRequest extends SpaceIsRequest {
 
     private final Gson gson;
     private final OkHttpClient httpClient;
     private final Config config;
+    private final SpaceIsLogger logger;
 
-    public GetCommandsRequest(final OkHttpClient httpClient, final Config config) {
+    public GetCommandsRequest(final OkHttpClient httpClient, final Config config, final SpaceIsLogger logger) {
+        this.logger = logger;
         this.gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
         this.httpClient = httpClient;
         this.config = config;
     }
 
     public CommandsResponse get() throws RequestException {
-        final Request request = this.prepareGetRequest(this.getRequestUrl(), this.config.apiKey, this.config.serverKey);
+        final Request request = this.prepareGetRequest(this.getRequestUrl(), this.config.getApiKey(), this.config.getServerKey());
+
+        if (this.config.isDebugEnabled()) {
+            this.logger.debug(String.format("Sending GET request to url: %s", request.url()));
+            this.logger.debug(String.format("Attaching API key: %s", this.config.getApiKey()));
+            this.logger.debug(String.format("Attaching server token: %s", this.config.getServerKey()));
+        }
 
         try (final Response response = this.httpClient.newCall(request).execute()) {
+            final String responseBody = response.body() != null ? response.body().string() : null;
+
+            if (this.config.isDebugEnabled()) {
+                this.logger.debug(String.format("Response for GET request: %s", responseBody));
+            }
+
             if (!response.isSuccessful()) {
                 throw new RequestException("Otrzymany kod odpowiedzi " + response.code());
             }
 
-            final ResponseBody responseBody = response.body();
             if (responseBody == null) {
                 throw new RequestException("Puste body odpowiedzi");
             }
 
-            return this.gson.fromJson(responseBody.string(), CommandsResponse.class);
+            return this.gson.fromJson(responseBody, CommandsResponse.class);
         } catch (final Exception exception) {
             throw new RequestException(exception.getMessage(), exception);
         }
     }
 
     private String getRequestUrl() throws RequestException {
-        return this.getUrlString(String.format("%s/server/%s/commands", this.config.apiUrl, this.config.serverId));
+        final String rawUrl = String.format("%s/server/%s/commands", this.config.getApiUrl(), this.config.getServerId());
+        return this.getUrlString(rawUrl);
     }
 
 }

@@ -1,7 +1,16 @@
-name: SpaceIsPlugin
-version: '1.0'
-api-version: 1.13
-main: pl.spaceis.plugin.bukkit.BukkitSpaceIsPlugin
+name: "SpaceIsPlugin"
+version: "1.1"
+api-version: "1.13"
+main: "pl.spaceis.plugin.bukkit.BukkitSpaceIsPlugin"
 description: "Wykonuj komendy ze swojego sklepu SpaceIs"
-website: https://spaceis.pl/
+website: "https://spaceis.pl/"
 author: "Kamilkime"
+
+commands:
+  spaceis:
+    description: "Reload SpaceIsPlugin configuration"
+    usage: "/spaceis reload"
+
+permissions:
+  spaceis.reload:
+    default: "op"
