@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package pl.spaceis.plugin.bukkit;
+package pl.spaceis.plugin.bukkit.commands;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import pl.spaceis.plugin.config.messages.Messages;
 import pl.spaceis.plugin.config.Config;
 import pl.spaceis.plugin.config.EmptyConfigFieldException;
 
@@ -38,20 +41,20 @@ public class SpaceIsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!sender.hasPermission("spaceis.reload")) {
-            sender.sendMessage(Messages.NO_PERMISSION);
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.NO_PERMISSION));
             return true;
         }
 
         if (args.length != 1 || !RELOAD_ARGS.contains(args[0].toLowerCase(Locale.ROOT))) {
-            sender.sendMessage(Messages.CORRECT_SYNTAX);
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Messages.CORRECT_SYNTAX));
             return true;
         }
 
         try {
             this.config.loadValues();
-            sender.sendMessage(Messages.CONFIG_RELOAD_SUCCESS);
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Messages.CONFIG_RELOAD_SUCCESS));
         } catch (final EmptyConfigFieldException exception) {
-            sender.sendMessage(Messages.CONFIG_RELOAD_ERROR + exception.getMessage());
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Messages.CONFIG_RELOAD_ERROR + exception.getMessage()));
         }
 
         return true;

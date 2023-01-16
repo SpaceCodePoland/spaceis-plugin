@@ -4,7 +4,7 @@ api-version: "1.13"
 main: "pl.spaceis.plugin.bukkit.BukkitSpaceIsPlugin"
 description: "Wykonuj komendy ze swojego sklepu SpaceIs"
 website: "https://spaceis.pl/"
-author: "Kamilkime"
+authors: ["Kamilkime", "robalmeister"]
 
 commands:
   spaceis:

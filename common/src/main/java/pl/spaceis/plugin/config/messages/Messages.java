@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package pl.spaceis.plugin.bukkit;
+package pl.spaceis.plugin.config.messages;
 
-import org.bukkit.ChatColor;
 
 public final class Messages {
 
-    public static final String PREFIX = ChatColor.DARK_GRAY + "[SpaceIs]";
-    public static final String CORRECT_SYNTAX = PREFIX + ChatColor.RED + " Poprawne użycie:" + ChatColor.GRAY + " /spaceis reload";
-    public static final String NO_PERMISSION = PREFIX + ChatColor.RED + " Brak uprawnień";
-    public static final String CONFIG_RELOAD_ERROR = PREFIX + ChatColor.RED + " Błąd podczas ładowania konfiguracji:" + ChatColor.GRAY;
-    public static final String CONFIG_RELOAD_SUCCESS = PREFIX + ChatColor.GREEN + " Konfiguracja załadowana poprawnie";
+    public static final String PREFIX = "&8[SpaceIs]";
+    public static final String CORRECT_SYNTAX = PREFIX +  " &cPoprawne użycie:" + " &7/spaceis reload";
+    public static final String NO_PERMISSION = PREFIX + " &cBrak uprawnień";
+    public static final String CONFIG_RELOAD_ERROR = PREFIX + " &cBłąd podczas ładowania konfiguracji: &7";
+    public static final String CONFIG_RELOAD_SUCCESS = PREFIX + " &aKonfiguracja załadowana poprawnie";
 
     private Messages() {}
 

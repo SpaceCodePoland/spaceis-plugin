@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pl.spaceis.plugin.bukkit;
+package pl.spaceis.plugin.bukkit.task;
 
 import okhttp3.OkHttpClient;
 import org.bukkit.Bukkit;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pl.spaceis.plugin.bukkit;
+package pl.spaceis.plugin.bukkit.logger;
 
 import java.util.logging.Logger;
 import pl.spaceis.plugin.logger.SpaceIsLogger;

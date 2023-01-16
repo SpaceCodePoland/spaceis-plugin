@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pl.spaceis.plugin.bukkit;
+package pl.spaceis.plugin.bukkit.config;
 
 import org.bukkit.plugin.Plugin;
 import pl.spaceis.plugin.config.ConfigLoader;
