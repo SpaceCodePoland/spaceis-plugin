@@ -16,14 +16,15 @@
 
 package pl.spaceis.plugin.config;
 
-import pl.spaceis.plugin.resource.ResourceLoaderException;
+public abstract class Messages<T> {
 
-public interface ConfigLoader {
+    public static final String PREFIX = "&8[SpaceIs]";
 
-    void reloadConfig() throws ResourceLoaderException;
+    public final T correctSyntax = this.color(PREFIX + " &cPoprawne użycie: &7/spaceis reload");
+    public final T noPermission = this.color(PREFIX + " &cBrak uprawnień");
+    public final T configReloadError = this.color(PREFIX + " &cBłąd podczas ładowania konfiguracji: &7");
+    public final T configReloadSuccess = this.color(PREFIX + " &aKonfiguracja załadowana poprawnie");
 
-    boolean getBoolean(final String key);
-
-    String getString(final String key);
+    protected abstract T color(final String message);
 
 }

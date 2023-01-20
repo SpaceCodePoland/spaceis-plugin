@@ -25,33 +25,37 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import pl.spaceis.plugin.config.Config;
 import pl.spaceis.plugin.config.EmptyConfigFieldException;
+import pl.spaceis.plugin.config.Messages;
+import pl.spaceis.plugin.resource.ResourceLoaderException;
 
-public class SpaceIsCommand implements CommandExecutor {
+public class BukkitSpaceIsCommand implements CommandExecutor {
 
     private static final Set<String> RELOAD_ARGS = new HashSet<>(Arrays.asList("rl", "reload"));
     private final Config config;
+    private final Messages<String> messages;
 
-    public SpaceIsCommand(final Config config) {
+    public BukkitSpaceIsCommand(final Config config, Messages<String> messages) {
         this.config = config;
+        this.messages = messages;
     }
 
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!sender.hasPermission("spaceis.reload")) {
-            sender.sendMessage(Messages.NO_PERMISSION);
+            sender.sendMessage(this.messages.noPermission);
             return true;
         }
 
         if (args.length != 1 || !RELOAD_ARGS.contains(args[0].toLowerCase(Locale.ROOT))) {
-            sender.sendMessage(Messages.CORRECT_SYNTAX);
+            sender.sendMessage(this.messages.correctSyntax);
             return true;
         }
 
         try {
             this.config.loadValues();
-            sender.sendMessage(Messages.CONFIG_RELOAD_SUCCESS);
-        } catch (final EmptyConfigFieldException exception) {
-            sender.sendMessage(Messages.CONFIG_RELOAD_ERROR + exception.getMessage());
+            sender.sendMessage(this.messages.configReloadSuccess);
+        } catch (final ResourceLoaderException | EmptyConfigFieldException exception) {
+            sender.sendMessage(this.messages.configReloadError + exception.getMessage());
         }
 
         return true;

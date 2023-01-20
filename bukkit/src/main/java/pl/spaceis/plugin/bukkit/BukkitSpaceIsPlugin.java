@@ -22,7 +22,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.spaceis.plugin.config.Config;
 import pl.spaceis.plugin.config.ConfigLoader;
 import pl.spaceis.plugin.config.EmptyConfigFieldException;
+import pl.spaceis.plugin.config.Messages;
 import pl.spaceis.plugin.logger.SpaceIsLogger;
+import pl.spaceis.plugin.resource.ResourceLoaderException;
 
 public class BukkitSpaceIsPlugin extends JavaPlugin {
 
@@ -34,6 +36,7 @@ public class BukkitSpaceIsPlugin extends JavaPlugin {
             final SpaceIsLogger logger = new BukkitSpaceIsLogger(this.getLogger());
             final ConfigLoader configLoader = new BukkitConfigLoader(this);
             final Config config = new Config(configLoader);
+            final Messages<String> messages = new BukkitMessages();
 
             Bukkit.getScheduler().runTaskTimerAsynchronously(
                     this,
@@ -42,8 +45,8 @@ public class BukkitSpaceIsPlugin extends JavaPlugin {
                     config.taskInterval.getSeconds() * 20L
             );
 
-            this.getCommand("spaceis").setExecutor(new SpaceIsCommand(config));
-        } catch (final EmptyConfigFieldException exception) {
+            this.getCommand("spaceis").setExecutor(new BukkitSpaceIsCommand(config, messages));
+        } catch (final ResourceLoaderException | EmptyConfigFieldException exception) {
             this.getLogger().severe(exception.getMessage());
             Bukkit.getPluginManager().disablePlugin(this);
         }

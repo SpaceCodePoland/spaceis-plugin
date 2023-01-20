@@ -2,3 +2,4 @@ rootProject.name = 'spaceis-plugin'
 
 include 'common'
 include 'bukkit'
+include 'bungee'
