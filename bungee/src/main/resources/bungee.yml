@@ -1,0 +1,6 @@
+name: "SpaceIsPlugin"
+version: "1.2"
+main: "pl.spaceis.plugin.bungee.BungeeSpaceIsPlugin"
+description: "Wykonuj komendy ze swojego sklepu SpaceIs"
+website: "https://spaceis.pl/"
+author: "SpaceIs-plugin Contributors"
