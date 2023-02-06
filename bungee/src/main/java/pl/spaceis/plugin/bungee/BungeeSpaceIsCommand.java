@@ -36,7 +36,7 @@ public class BungeeSpaceIsCommand extends Command implements SpaceIsCommand<Comm
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void execute(final CommandSender sender, final String[] args) {
         this.executeCommand(sender, args);
     }
 
