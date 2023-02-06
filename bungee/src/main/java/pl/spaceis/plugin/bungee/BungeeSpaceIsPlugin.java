@@ -23,7 +23,7 @@ public class BungeeSpaceIsPlugin extends Plugin {
         final ResourceLoader<Configuration> resourceLoader = new BungeeResourceLoader(this.getClass(), this.getDataFolder());
         try {
             final SpaceIsLogger logger = new BungeeSpaceIsLogger(this.getLogger());
-            final ConfigLoader configLoader = new BungeeConfigLoader(resourceLoader,"config.yml");
+            final ConfigLoader configLoader = new BungeeConfigLoader(resourceLoader, "config.yml");
             final Config config = new Config(configLoader);
             final Messages<BaseComponent> messages = new BungeeMessages();
 
