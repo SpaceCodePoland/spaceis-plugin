@@ -27,4 +27,6 @@ public abstract class Messages<T> {
 
     protected abstract T color(final String message);
 
+    public abstract T appendMessage(T message, String append);
+
 }

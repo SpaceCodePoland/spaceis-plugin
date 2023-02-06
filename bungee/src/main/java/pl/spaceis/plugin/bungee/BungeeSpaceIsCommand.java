@@ -7,14 +7,14 @@ import java.util.Set;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.plugin.Command;
+import pl.spaceis.plugin.command.SpaceIsCommand;
 import pl.spaceis.plugin.config.Config;
 import pl.spaceis.plugin.config.EmptyConfigFieldException;
 import pl.spaceis.plugin.config.Messages;
 import pl.spaceis.plugin.resource.ResourceLoaderException;
 
-public class BungeeSpaceIsCommand extends Command {
+public class BungeeSpaceIsCommand extends Command implements SpaceIsCommand<CommandSender, BaseComponent> {
 
-    private static final Set<String> RELOAD_ARGS = new HashSet<>(Arrays.asList("rl", "reload"));
     private final Config config;
     private final Messages<BaseComponent> messages;
 
@@ -44,6 +44,26 @@ public class BungeeSpaceIsCommand extends Command {
             errorMessage.addExtra(exception.getMessage());
             sender.sendMessage(errorMessage);
         }
+    }
+
+    @Override
+    public void sendMessage(final CommandSender sender, final BaseComponent message) {
+        sender.sendMessage(message);
+    }
+
+    @Override
+    public boolean hasPermission(final CommandSender sender, final String permission) {
+        return sender.hasPermission(permission);
+    }
+
+    @Override
+    public Config getConfig() {
+        return this.config;
+    }
+
+    @Override
+    public Messages<BaseComponent> getMessages() {
+        return this.messages;
     }
 
 }

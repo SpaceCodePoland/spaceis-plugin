@@ -23,14 +23,14 @@ import java.util.Set;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import pl.spaceis.plugin.command.SpaceIsCommand;
 import pl.spaceis.plugin.config.Config;
 import pl.spaceis.plugin.config.EmptyConfigFieldException;
 import pl.spaceis.plugin.config.Messages;
 import pl.spaceis.plugin.resource.ResourceLoaderException;
 
-public class BukkitSpaceIsCommand implements CommandExecutor {
+public class BukkitSpaceIsCommand implements CommandExecutor, SpaceIsCommand<CommandSender, String> {
 
-    private static final Set<String> RELOAD_ARGS = new HashSet<>(Arrays.asList("rl", "reload"));
     private final Config config;
     private final Messages<String> messages;
 
@@ -41,24 +41,28 @@ public class BukkitSpaceIsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
-        if (!sender.hasPermission("spaceis.reload")) {
-            sender.sendMessage(this.messages.noPermission);
-            return true;
-        }
-
-        if (args.length != 1 || !RELOAD_ARGS.contains(args[0].toLowerCase(Locale.ROOT))) {
-            sender.sendMessage(this.messages.correctSyntax);
-            return true;
-        }
-
-        try {
-            this.config.loadValues();
-            sender.sendMessage(this.messages.configReloadSuccess);
-        } catch (final ResourceLoaderException | EmptyConfigFieldException exception) {
-            sender.sendMessage(this.messages.configReloadError + exception.getMessage());
-        }
-
+        this.execute(sender, args);
         return true;
+    }
+
+    @Override
+    public void sendMessage(final CommandSender sender, final String message) {
+        sender.sendMessage(message);
+    }
+
+    @Override
+    public boolean hasPermission(final CommandSender sender, final String permission) {
+        return sender.hasPermission(permission);
+    }
+
+    @Override
+    public Config getConfig() {
+        return this.config;
+    }
+
+    @Override
+    public Messages<String> getMessages() {
+        return this.messages;
     }
 
 }

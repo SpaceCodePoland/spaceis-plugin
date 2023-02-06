@@ -10,4 +10,9 @@ public class BukkitMessages extends Messages<String> {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
+    @Override
+    public String appendMessage(final String message, final String append) {
+        return message + append;
+    }
+
 }

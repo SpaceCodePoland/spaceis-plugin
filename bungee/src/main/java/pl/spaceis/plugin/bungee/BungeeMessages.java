@@ -12,4 +12,11 @@ public class BungeeMessages extends Messages<BaseComponent> {
         return new TextComponent(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message)));
     }
 
+    @Override
+    public BaseComponent appendMessage(final BaseComponent message, final String append) {
+        BaseComponent finalMessage = message.duplicate();
+        finalMessage.addExtra(append);
+        return finalMessage;
+    }
+
 }
