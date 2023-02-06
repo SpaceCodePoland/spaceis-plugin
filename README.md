@@ -4,7 +4,7 @@ Plugin łączący serwer Minecraft z itemshopem stworzonym na [SpaceIs.pl](https
 Wspierane (przetestowane przez autorów) wersje Minecrafta — od 1.8 do 1.19.3
 
 Plugin przeznaczony dla platform:
-- Bukkit/Spigot/Paper/... - 1.8 do 1.19.3
-- BungeeCord/WaterFall/.. - 1.19+
+- pochodnych Bukkita (Spigot, Paper, itp.)
+- pochodnych BungeeCord (WaterFall itp.) - 1.19+
 
-Autor pluginu: [Kamilkime](https://github.com/Kamilkime)
+Autorzy pluginu: [Contributors](https://github.com/SpaceCodePoland/spaceis-plugin/graphs/contributors)
