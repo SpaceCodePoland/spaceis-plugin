@@ -26,7 +26,8 @@ public class BungeeMessages extends Messages<BaseComponent> {
 
     @Override
     protected BaseComponent color(final String message) {
-        return new TextComponent(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message)));
+        String coloredMessage = ChatColor.translateAlternateColorCodes('&', message);
+        return new TextComponent(TextComponent.fromLegacyText(coloredMessage));
     }
 
     @Override
