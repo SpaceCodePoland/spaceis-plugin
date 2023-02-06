@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 SpaceIs-plugin Contributors
+ * Copyright (C) 2023 SpaceIs-plugin Contributors
  * https://github.com/SpaceCodePoland/spaceis-plugin/graphs/contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
