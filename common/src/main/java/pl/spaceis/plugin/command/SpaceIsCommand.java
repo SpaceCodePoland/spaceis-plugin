@@ -31,7 +31,7 @@ public interface SpaceIsCommand<S, M> {
 
     Set<String> RELOAD_ARGS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("rl", "reload")));
 
-    default void execute(final S sender, final String[] args) {
+    default void executeCommand(final S sender, final String[] args) {
         if (!this.hasPermission(sender, "spaceis.reload")) {
             this.sendMessage(sender, this.getMessages().noPermission);
             return;

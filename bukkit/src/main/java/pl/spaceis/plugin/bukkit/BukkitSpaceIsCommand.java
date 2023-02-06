@@ -36,7 +36,7 @@ public class BukkitSpaceIsCommand implements CommandExecutor, SpaceIsCommand<Com
 
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
-        this.execute(sender, args);
+        this.executeCommand(sender, args);
         return true;
     }
 
