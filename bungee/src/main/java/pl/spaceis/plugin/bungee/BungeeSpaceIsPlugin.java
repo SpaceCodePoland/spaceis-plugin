@@ -15,47 +15,53 @@
  * limitations under the License.
  */
 
-package pl.spaceis.plugin.bukkit;
+package pl.spaceis.plugin.bungee;
 
+import java.util.concurrent.TimeUnit;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.config.Configuration;
 import okhttp3.OkHttpClient;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
 import pl.spaceis.plugin.config.Config;
 import pl.spaceis.plugin.config.ConfigLoader;
 import pl.spaceis.plugin.config.EmptyConfigFieldException;
 import pl.spaceis.plugin.config.Messages;
 import pl.spaceis.plugin.logger.SpaceIsLogger;
+import pl.spaceis.plugin.resource.ResourceLoader;
 import pl.spaceis.plugin.resource.ResourceLoaderException;
 
-public class BukkitSpaceIsPlugin extends JavaPlugin {
+public class BungeeSpaceIsPlugin extends Plugin {
 
     private final OkHttpClient httpClient = new OkHttpClient.Builder().build();
 
     @Override
     public void onEnable() {
+        final ResourceLoader<Configuration> resourceLoader = new BungeeResourceLoader(this.getClass(), this.getDataFolder());
         try {
-            final SpaceIsLogger logger = new BukkitSpaceIsLogger(this.getLogger());
-            final ConfigLoader configLoader = new BukkitConfigLoader(this);
+            final SpaceIsLogger logger = new BungeeSpaceIsLogger(this.getLogger());
+            final ConfigLoader configLoader = new BungeeConfigLoader(resourceLoader, "config.yml");
             final Config config = new Config(configLoader);
-            final Messages<String> messages = new BukkitMessages();
+            final Messages<BaseComponent> messages = new BungeeMessages();
 
-            Bukkit.getScheduler().runTaskTimerAsynchronously(
+            ProxyServer.getInstance().getScheduler().schedule(
                     this,
-                    new BukkitCommandsTask(this, this.httpClient, config, logger),
+                    new BungeeCommandsTask(this.httpClient, config, logger),
                     0L,
-                    config.taskInterval.getSeconds() * 20L
+                    config.taskInterval.getSeconds(),
+                    TimeUnit.SECONDS
             );
 
-            this.getCommand("spaceis").setExecutor(new BukkitSpaceIsCommand(config, messages));
+            ProxyServer.getInstance().getPluginManager().registerCommand(this, new BungeeSpaceIsCommand(config, messages));
         } catch (final ResourceLoaderException | EmptyConfigFieldException exception) {
             this.getLogger().severe(exception.getMessage());
-            Bukkit.getPluginManager().disablePlugin(this);
+            ProxyServer.getInstance().getScheduler().cancel(this);
         }
     }
 
     @Override
     public void onDisable() {
-        Bukkit.getScheduler().cancelTasks(this);
+        ProxyServer.getInstance().getScheduler().cancel(this);
         this.httpClient.dispatcher().executorService().shutdown();
     }
 

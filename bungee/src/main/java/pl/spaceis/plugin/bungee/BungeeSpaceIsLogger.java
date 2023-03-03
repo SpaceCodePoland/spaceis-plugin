@@ -15,16 +15,32 @@
  * limitations under the License.
  */
 
-package pl.spaceis.plugin.config;
+package pl.spaceis.plugin.bungee;
 
-import pl.spaceis.plugin.resource.ResourceLoaderException;
+import java.util.logging.Logger;
+import pl.spaceis.plugin.logger.SpaceIsLogger;
 
-public interface ConfigLoader {
+public class BungeeSpaceIsLogger implements SpaceIsLogger {
 
-    void reloadConfig() throws ResourceLoaderException;
+    private final Logger logger;
 
-    boolean getBoolean(final String key);
+    public BungeeSpaceIsLogger(final Logger logger) {
+        this.logger = logger;
+    }
 
-    String getString(final String key);
+    @Override
+    public void info(final String message) {
+        this.logger.info(message);
+    }
+
+    @Override
+    public void error(final String message) {
+        this.logger.severe(message);
+    }
+
+    @Override
+    public void debug(final String message) {
+        this.logger.info(String.format("[DEBUG] %s", message));
+    }
 
 }

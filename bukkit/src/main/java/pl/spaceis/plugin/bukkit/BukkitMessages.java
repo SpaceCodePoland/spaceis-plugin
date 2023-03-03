@@ -15,16 +15,21 @@
  * limitations under the License.
  */
 
-package pl.spaceis.plugin.config;
+package pl.spaceis.plugin.bukkit;
 
-import pl.spaceis.plugin.resource.ResourceLoaderException;
+import org.bukkit.ChatColor;
+import pl.spaceis.plugin.config.Messages;
 
-public interface ConfigLoader {
+public class BukkitMessages extends Messages<String> {
 
-    void reloadConfig() throws ResourceLoaderException;
+    @Override
+    protected String color(final String message) {
+        return ChatColor.translateAlternateColorCodes('&', message);
+    }
 
-    boolean getBoolean(final String key);
-
-    String getString(final String key);
+    @Override
+    public String appendMessage(final String message, final String append) {
+        return message + append;
+    }
 
 }

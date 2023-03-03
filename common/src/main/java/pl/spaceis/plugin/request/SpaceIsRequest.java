@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2022 Kamil Trysiński
+ * Copyright (C) 2023 SpaceIs-plugin Contributors
+ * https://github.com/SpaceCodePoland/spaceis-plugin/graphs/contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +53,7 @@ public abstract class SpaceIsRequest {
     private Request.Builder prepareRequestBuilder(final String url, final String apiKey, final String serverKey) {
         return new Request.Builder()
                 .url(url)
-                .header("User-Agent", "SpaceIsPlugin/1.1")
+                .header("User-Agent", "SpaceIsPlugin/1.2")
                 .header("Authorization", "Bearer " + apiKey)
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")

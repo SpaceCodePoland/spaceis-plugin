@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2022 Kamil Trysiński
+ * Copyright (C) 2023 SpaceIs-plugin Contributors
+ * https://github.com/SpaceCodePoland/spaceis-plugin/graphs/contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +19,7 @@ package pl.spaceis.plugin.config;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import pl.spaceis.plugin.resource.ResourceLoaderException;
 
 public class Config {
 
@@ -31,7 +33,7 @@ public class Config {
 
     public final Duration taskInterval = Duration.of(60, ChronoUnit.SECONDS);
 
-    public Config(final ConfigLoader configLoader) throws EmptyConfigFieldException {
+    public Config(final ConfigLoader configLoader) throws ResourceLoaderException, EmptyConfigFieldException {
         this.configLoader = configLoader;
         this.loadValues();
     }
@@ -56,7 +58,7 @@ public class Config {
         return this.debug;
     }
 
-    public void loadValues() throws EmptyConfigFieldException {
+    public void loadValues() throws ResourceLoaderException, EmptyConfigFieldException {
         this.configLoader.reloadConfig();
 
         this.serverKey = this.configLoader.getString("serverKey");
