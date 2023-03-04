@@ -33,8 +33,8 @@ public class BukkitSpaceIsPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        final SpaceIsLogger logger = new BukkitSpaceIsLogger(this.getLogger());
         try {
-            final SpaceIsLogger logger = new BukkitSpaceIsLogger(this.getLogger());
             final ConfigLoader configLoader = new BukkitConfigLoader(this);
             final Config config = new Config(configLoader);
             final Messages<String> messages = new BukkitMessages();
@@ -48,7 +48,7 @@ public class BukkitSpaceIsPlugin extends JavaPlugin {
 
             this.getCommand("spaceis").setExecutor(new BukkitSpaceIsCommand(config, messages));
         } catch (final ResourceLoaderException | EmptyConfigFieldException exception) {
-            this.getLogger().severe(exception.getMessage());
+            logger.error(exception.getMessage());
             Bukkit.getPluginManager().disablePlugin(this);
         }
     }
