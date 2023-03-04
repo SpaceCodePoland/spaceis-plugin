@@ -16,7 +16,14 @@ import pl.spaceis.plugin.config.Messages;
 import pl.spaceis.plugin.logger.SpaceIsLogger;
 import pl.spaceis.plugin.resource.ResourceLoaderException;
 
-@Plugin(id = "spaceis-plugin", name = "SpaceIsPlugin", version = "1.2", description = "Wykonuj komendy ze swojego sklepu SpaceIs", url = "https://spaceis.pl/", authors = "SpaceIs-plugin Contributors")
+@Plugin(
+        id = "spaceis-plugin",
+        name = "SpaceIsPlugin",
+        version = "1.2",
+        description = "Wykonuj komendy ze swojego sklepu SpaceIs",
+        url = "https://spaceis.pl/",
+        authors = "SpaceIs-plugin Contributors"
+)
 public class VelocitySpaceIsPlugin {
 
     private final ProxyServer server;
