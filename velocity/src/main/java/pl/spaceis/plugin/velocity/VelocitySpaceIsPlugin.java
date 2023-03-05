@@ -23,7 +23,7 @@ import pl.spaceis.plugin.resource.ResourceLoaderException;
 @Plugin(
         id = "spaceis-plugin",
         name = "SpaceIsPlugin",
-        version = "1.2",
+        version = "1.3",
         description = "Wykonuj komendy ze swojego sklepu SpaceIs",
         url = "https://spaceis.pl/",
         authors = "SpaceIs-plugin Contributors"
