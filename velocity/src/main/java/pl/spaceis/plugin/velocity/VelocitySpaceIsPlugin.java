@@ -69,7 +69,8 @@ public class VelocitySpaceIsPlugin {
             final Config config = new Config(configLoader);
             final Messages<Component> messages = new VelocityMessages();
 
-            this.server.getScheduler().buildTask(this, new VelocityCommandsTask(this.httpClient, config, logger, this.server))
+            this.server.getScheduler()
+                    .buildTask(this, new VelocityCommandsTask(this.httpClient, config, logger, this.server))
                     .repeat(config.taskInterval)
                     .schedule();
 

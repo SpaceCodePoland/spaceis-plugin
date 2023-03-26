@@ -23,7 +23,7 @@ import pl.spaceis.plugin.config.Messages;
 
 public class VelocityMessages extends Messages<Component> {
 
-    private static final LegacyComponentSerializer LEGACY = LegacyComponentSerializer.builder().hexColors().build();
+    private static final LegacyComponentSerializer LEGACY = LegacyComponentSerializer.legacyAmpersand();
 
     @Override
     protected Component color(final String message) {
@@ -32,7 +32,7 @@ public class VelocityMessages extends Messages<Component> {
 
     @Override
     public Component appendMessage(final Component message, final String append) {
-        return message.append(Component.text(append));
+        return message.append(this.color(append));
     }
 
 }

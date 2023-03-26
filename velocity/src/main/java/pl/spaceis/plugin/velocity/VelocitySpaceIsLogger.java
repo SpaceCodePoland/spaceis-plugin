@@ -29,17 +29,17 @@ public class VelocitySpaceIsLogger implements SpaceIsLogger {
     }
 
     @Override
-    public void info(String message) {
+    public void info(final String message) {
         this.logger.info(message);
     }
 
     @Override
-    public void error(String message) {
+    public void error(final String message) {
         this.logger.error(message);
     }
 
     @Override
-    public void debug(String message) {
+    public void debug(final String message) {
         this.logger.debug(String.format("[DEBUG] %s", message));
     }
 

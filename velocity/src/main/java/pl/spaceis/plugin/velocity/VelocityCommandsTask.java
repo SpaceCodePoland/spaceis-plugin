@@ -25,21 +25,21 @@ import pl.spaceis.plugin.logger.SpaceIsLogger;
 
 public class VelocityCommandsTask extends CommandsTask {
 
-    private final ProxyServer server;
+    private final ProxyServer proxy;
 
-    public VelocityCommandsTask(final OkHttpClient httpClient, final Config config, final SpaceIsLogger logger, final ProxyServer server) {
+    public VelocityCommandsTask(final OkHttpClient httpClient, final Config config, final SpaceIsLogger logger, final ProxyServer proxy) {
         super(httpClient, config, logger);
-        this.server = server;
+        this.proxy = proxy;
     }
 
     @Override
     public boolean isPlayerOnline(final String playerName) {
-        return this.server.getPlayer(playerName).isPresent();
+        return this.proxy.getPlayer(playerName).isPresent();
     }
 
     @Override
     public void executeCommand(final String command) {
-        this.server.getCommandManager().executeAsync(this.server.getConsoleCommandSource(), command);
+        this.proxy.getCommandManager().executeAsync(this.proxy.getConsoleCommandSource(), command);
     }
 
 }
