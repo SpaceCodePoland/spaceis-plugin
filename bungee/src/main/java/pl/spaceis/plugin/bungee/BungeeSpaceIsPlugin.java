@@ -37,9 +37,9 @@ public class BungeeSpaceIsPlugin extends Plugin {
 
     @Override
     public void onEnable() {
-        final ResourceLoader<Configuration> resourceLoader = new BungeeResourceLoader(this.getClass(), this.getDataFolder());
+        final SpaceIsLogger logger = new BungeeSpaceIsLogger(this.getLogger());
         try {
-            final SpaceIsLogger logger = new BungeeSpaceIsLogger(this.getLogger());
+            final ResourceLoader<Configuration> resourceLoader = new BungeeResourceLoader(this.getClass(), this.getDataFolder());
             final ConfigLoader configLoader = new BungeeConfigLoader(resourceLoader, "config.yml");
             final Config config = new Config(configLoader);
             final Messages<BaseComponent> messages = new BungeeMessages();
@@ -54,7 +54,7 @@ public class BungeeSpaceIsPlugin extends Plugin {
 
             ProxyServer.getInstance().getPluginManager().registerCommand(this, new BungeeSpaceIsCommand(config, messages));
         } catch (final ResourceLoaderException | EmptyConfigFieldException exception) {
-            this.getLogger().severe(exception.getMessage());
+            logger.error(exception.getMessage());
             ProxyServer.getInstance().getScheduler().cancel(this);
         }
     }
