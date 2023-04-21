@@ -22,6 +22,8 @@ public interface SpaceIsLogger {
 
     void error(final String message);
 
-    void debug(final String message);
+    default void debug(final String message) {
+        this.info(String.format("[DEBUG] %s", message));
+    }
 
 }
