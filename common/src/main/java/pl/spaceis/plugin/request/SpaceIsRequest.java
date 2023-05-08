@@ -53,7 +53,7 @@ public abstract class SpaceIsRequest {
     private Request.Builder prepareRequestBuilder(final String url, final String apiKey, final String serverKey) {
         return new Request.Builder()
                 .url(url)
-                .header("User-Agent", "SpaceIsPlugin/1.3")
+                .header("User-Agent", "SpaceIsPlugin/1.3.1")
                 .header("Authorization", "Bearer " + apiKey)
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")

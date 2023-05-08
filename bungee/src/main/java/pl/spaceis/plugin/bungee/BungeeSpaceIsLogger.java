@@ -38,9 +38,4 @@ public class BungeeSpaceIsLogger implements SpaceIsLogger {
         this.logger.severe(message);
     }
 
-    @Override
-    public void debug(final String message) {
-        this.logger.info(String.format("[DEBUG] %s", message));
-    }
-
 }

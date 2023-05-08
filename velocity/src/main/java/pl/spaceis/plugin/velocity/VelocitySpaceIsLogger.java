@@ -38,9 +38,4 @@ public class VelocitySpaceIsLogger implements SpaceIsLogger {
         this.logger.error(message);
     }
 
-    @Override
-    public void debug(final String message) {
-        this.logger.debug(String.format("[DEBUG] %s", message));
-    }
-
 }
