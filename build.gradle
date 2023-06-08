@@ -41,9 +41,10 @@ allprojects {
             exclude(dependency('org.jetbrains:annotations'))
         }
 
-        relocate 'kotlin', 'lib.kotlin'
-        relocate 'okhttp3', 'lib.okhttp3'
-        relocate 'okio', 'lib.okio'
+        def libsPackage = "${rootProject.group}.libs"
+        relocate 'kotlin', "${libsPackage}.libs.kotlin"
+        relocate 'okhttp3', "${libsPackage}.libs.okhttp3"
+        relocate 'okio', "${libsPackage}.libs.okio"
     }
 }
 
@@ -51,4 +52,8 @@ dependencies {
     implementation project(':bukkit')
     implementation project(':bungee')
     implementation project(':velocity')
+}
+
+shadowJar {
+     archiveFileName = "${archiveBaseName.get()} v${archiveVersion.get()}.${archiveExtension.get()}"
 }
