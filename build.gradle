@@ -42,9 +42,9 @@ allprojects {
         }
 
         def libsPackage = "${rootProject.group}.libs"
-        relocate 'kotlin', "${libsPackage}.libs.kotlin"
-        relocate 'okhttp3', "${libsPackage}.libs.okhttp3"
-        relocate 'okio', "${libsPackage}.libs.okio"
+        relocate 'kotlin', "${libsPackage}.kotlin"
+        relocate 'okhttp3', "${libsPackage}.okhttp3"
+        relocate 'okio', "${libsPackage}.okio"
     }
 }
 
