@@ -1,5 +1,5 @@
 name: "SpaceIsPlugin"
-version: "1.3.2"
+version: "1.4.0"
 api-version: "1.13"
 main: "pl.spaceis.plugin.bukkit.BukkitSpaceIsPlugin"
 description: "Wykonuj komendy ze swojego sklepu SpaceIs"
