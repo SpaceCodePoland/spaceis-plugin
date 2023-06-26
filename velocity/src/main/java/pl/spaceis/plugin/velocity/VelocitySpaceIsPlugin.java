@@ -88,7 +88,11 @@ public class VelocitySpaceIsPlugin implements PlatformDataProvider {
 
     @Override
     public String getVersion() {
-        return this.getClass().getPackage().getImplementationVersion();
+        final Plugin pluginAnnotation = this.getClass().getAnnotation(Plugin.class);
+        if (pluginAnnotation == null) {
+            return "Unknown";
+        }
+        return pluginAnnotation.version();
     }
 
     @Override
@@ -98,7 +102,7 @@ public class VelocitySpaceIsPlugin implements PlatformDataProvider {
 
     @Override
     public String getEngineVersion() {
-        return this.server.getVersion().getVersion();
+        return PlatformDataProvider.matchVersion(this.server.getVersion().getVersion());
     }
 
 }

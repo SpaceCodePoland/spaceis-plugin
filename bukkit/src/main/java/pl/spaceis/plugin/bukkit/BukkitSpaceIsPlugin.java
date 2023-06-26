@@ -72,6 +72,6 @@ public class BukkitSpaceIsPlugin extends JavaPlugin implements PlatformDataProvi
 
     @Override
     public String getEngineVersion() {
-        return Bukkit.getVersion().split("-")[0];
+        return PlatformDataProvider.matchVersion(Bukkit.getBukkitVersion());
     }
 }

@@ -78,6 +78,6 @@ public class BungeeSpaceIsPlugin extends Plugin implements PlatformDataProvider 
 
     @Override
     public String getEngineVersion() {
-        return ProxyServer.getInstance().getVersion();
+        return PlatformDataProvider.matchVersion(this.getProxy().getVersion());
     }
 }
