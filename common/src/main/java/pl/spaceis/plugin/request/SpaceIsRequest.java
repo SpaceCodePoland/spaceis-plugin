@@ -19,10 +19,30 @@ package pl.spaceis.plugin.request;
 
 import java.net.URI;
 import java.net.URL;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import pl.spaceis.plugin.config.Config;
+import pl.spaceis.plugin.logger.SpaceIsLogger;
 
 public abstract class SpaceIsRequest {
+
+    protected final OkHttpClient httpClient;
+    protected final Config config;
+    protected final SpaceIsLogger logger;
+    private final PlatformDataProvider platformDataProvider;
+
+    protected SpaceIsRequest(
+            final OkHttpClient httpClient,
+            final Config config,
+            final SpaceIsLogger logger,
+            final PlatformDataProvider platformDataProvider
+    ) {
+        this.httpClient = httpClient;
+        this.config = config;
+        this.logger = logger;
+        this.platformDataProvider = platformDataProvider;
+    }
 
     protected String getUrlString(final String rawUrl) throws RequestException {
         try {
@@ -53,11 +73,15 @@ public abstract class SpaceIsRequest {
     private Request.Builder prepareRequestBuilder(final String url, final String apiKey, final String serverKey) {
         return new Request.Builder()
                 .url(url)
-                .header("User-Agent", "SpaceIsPlugin/1.3.1")
+                .header("User-Agent", "SpaceIsPlugin/" + this.platformDataProvider.getVersion())
                 .header("Authorization", "Bearer " + apiKey)
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")
-                .header("X-SPACEIS-SERVER-TOKEN", serverKey);
+                .header("X-SPACEIS-SERVER-TOKEN", serverKey)
+                .header("X-PLATFORM", "JAVA-MC")
+                .header("X-PLATFORM-VERSION", this.platformDataProvider.getVersion())
+                .header("X-PLATFORM-ENGINE", this.platformDataProvider.getEngineName())
+                .header("X-PLATFORM-ENGINE-VERSION", this.platformDataProvider.getEngineVersion());
     }
 
 }

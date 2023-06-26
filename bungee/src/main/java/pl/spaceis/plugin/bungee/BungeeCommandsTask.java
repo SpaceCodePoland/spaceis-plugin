@@ -22,14 +22,21 @@ import okhttp3.OkHttpClient;
 import pl.spaceis.plugin.command.CommandsTask;
 import pl.spaceis.plugin.config.Config;
 import pl.spaceis.plugin.logger.SpaceIsLogger;
+import pl.spaceis.plugin.request.PlatformDataProvider;
 
 public class BungeeCommandsTask extends CommandsTask {
 
     private final ProxyServer proxy;
 
-    public BungeeCommandsTask(final OkHttpClient httpClient, final Config config, final SpaceIsLogger logger) {
-        super(httpClient, config, logger);
-        this.proxy = ProxyServer.getInstance();
+    public BungeeCommandsTask(
+            final ProxyServer proxy,
+            final OkHttpClient httpClient,
+            final Config config,
+            final SpaceIsLogger logger,
+            final PlatformDataProvider platformDataProvider
+    ) {
+        super(httpClient, config, logger, platformDataProvider);
+        this.proxy = proxy;
     }
 
     @Override

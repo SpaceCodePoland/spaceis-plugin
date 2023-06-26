@@ -34,6 +34,7 @@ import pl.spaceis.plugin.config.ConfigLoader;
 import pl.spaceis.plugin.config.EmptyConfigFieldException;
 import pl.spaceis.plugin.config.Messages;
 import pl.spaceis.plugin.logger.SpaceIsLogger;
+import pl.spaceis.plugin.request.PlatformDataProvider;
 import pl.spaceis.plugin.resource.ResourceLoader;
 import pl.spaceis.plugin.resource.ResourceLoaderException;
 
@@ -45,7 +46,7 @@ import pl.spaceis.plugin.resource.ResourceLoaderException;
         url = "https://spaceis.pl/",
         authors = "SpaceIs-plugin Contributors"
 )
-public class VelocitySpaceIsPlugin {
+public class VelocitySpaceIsPlugin implements PlatformDataProvider {
 
     private final ProxyServer server;
     private final Logger velocityLogger;
@@ -70,7 +71,7 @@ public class VelocitySpaceIsPlugin {
             final Messages<Component> messages = new VelocityMessages();
 
             this.server.getScheduler()
-                    .buildTask(this, new VelocityCommandsTask(this.httpClient, config, logger, this.server))
+                    .buildTask(this, new VelocityCommandsTask(this.server, this.httpClient, config, logger, this))
                     .repeat(config.taskInterval)
                     .schedule();
 
@@ -83,6 +84,21 @@ public class VelocitySpaceIsPlugin {
     @Subscribe
     public void onDisable(final ProxyShutdownEvent event) {
         this.httpClient.dispatcher().executorService().shutdown();
+    }
+
+    @Override
+    public String getVersion() {
+        return this.getClass().getPackage().getImplementationVersion();
+    }
+
+    @Override
+    public String getEngineName() {
+        return "Velocity";
+    }
+
+    @Override
+    public String getEngineVersion() {
+        return this.server.getVersion().getVersion();
     }
 
 }

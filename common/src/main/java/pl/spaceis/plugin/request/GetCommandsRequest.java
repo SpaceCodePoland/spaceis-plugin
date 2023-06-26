@@ -29,15 +29,15 @@ import pl.spaceis.plugin.logger.SpaceIsLogger;
 public class GetCommandsRequest extends SpaceIsRequest {
 
     private final Gson gson;
-    private final OkHttpClient httpClient;
-    private final Config config;
-    private final SpaceIsLogger logger;
 
-    public GetCommandsRequest(final OkHttpClient httpClient, final Config config, final SpaceIsLogger logger) {
-        this.logger = logger;
+    public GetCommandsRequest(
+            final OkHttpClient httpClient,
+            final Config config,
+            final SpaceIsLogger logger,
+            final PlatformDataProvider platformDataProvider
+    ) {
+        super(httpClient, config, logger, platformDataProvider);
         this.gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
-        this.httpClient = httpClient;
-        this.config = config;
     }
 
     public CommandsResponse get() throws RequestException {
