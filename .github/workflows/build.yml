@@ -28,3 +28,9 @@ jobs:
           chmod +x gradlew
       - name: Build spaceis-plugin JAR
         run: ./gradlew shadowJar --no-daemon
+      - name: Upload spaceis-plugin JAR
+        uses: actions/upload-artifact@v3
+        with:
+          name: Plugin JAR
+          path: build/libs/spaceis-plugin v*.jar
+          if-no-files-found: error
