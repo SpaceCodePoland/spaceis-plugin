@@ -28,10 +28,11 @@ import pl.spaceis.plugin.config.ConfigLoader;
 import pl.spaceis.plugin.config.EmptyConfigFieldException;
 import pl.spaceis.plugin.config.Messages;
 import pl.spaceis.plugin.logger.SpaceIsLogger;
+import pl.spaceis.plugin.request.PlatformDataProvider;
 import pl.spaceis.plugin.resource.ResourceLoader;
 import pl.spaceis.plugin.resource.ResourceLoaderException;
 
-public class BungeeSpaceIsPlugin extends Plugin {
+public class BungeeSpaceIsPlugin extends Plugin implements PlatformDataProvider {
 
     private final OkHttpClient httpClient = new OkHttpClient.Builder().build();
 
@@ -44,9 +45,9 @@ public class BungeeSpaceIsPlugin extends Plugin {
             final Config config = new Config(configLoader);
             final Messages<BaseComponent> messages = new BungeeMessages();
 
-            ProxyServer.getInstance().getScheduler().schedule(
+            this.getProxy().getScheduler().schedule(
                     this,
-                    new BungeeCommandsTask(this.httpClient, config, logger),
+                    new BungeeCommandsTask(this.getProxy(), this.httpClient, config, logger, this),
                     0L,
                     config.taskInterval.getSeconds(),
                     TimeUnit.SECONDS
@@ -65,4 +66,18 @@ public class BungeeSpaceIsPlugin extends Plugin {
         this.httpClient.dispatcher().executorService().shutdown();
     }
 
+    @Override
+    public String getVersion() {
+        return this.getDescription().getVersion();
+    }
+
+    @Override
+    public String getEngineName() {
+        return "BungeeCord";
+    }
+
+    @Override
+    public String getEngineVersion() {
+        return PlatformDataProvider.matchVersion(this.getProxy().getVersion());
+    }
 }

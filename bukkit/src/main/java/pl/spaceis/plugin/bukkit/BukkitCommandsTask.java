@@ -22,13 +22,20 @@ import org.bukkit.plugin.Plugin;
 import pl.spaceis.plugin.command.CommandsTask;
 import pl.spaceis.plugin.config.Config;
 import pl.spaceis.plugin.logger.SpaceIsLogger;
+import pl.spaceis.plugin.request.PlatformDataProvider;
 
 public class BukkitCommandsTask extends CommandsTask {
 
     private final Plugin plugin;
 
-    public BukkitCommandsTask(final Plugin plugin, final OkHttpClient httpClient, final Config config, final SpaceIsLogger logger) {
-        super(httpClient, config, logger);
+    public BukkitCommandsTask(
+            final Plugin plugin,
+            final OkHttpClient httpClient,
+            final Config config,
+            final SpaceIsLogger logger,
+            final PlatformDataProvider platformDataProvider
+    ) {
+        super(httpClient, config, logger, platformDataProvider);
         this.plugin = plugin;
     }
 

@@ -22,13 +22,20 @@ import okhttp3.OkHttpClient;
 import pl.spaceis.plugin.command.CommandsTask;
 import pl.spaceis.plugin.config.Config;
 import pl.spaceis.plugin.logger.SpaceIsLogger;
+import pl.spaceis.plugin.request.PlatformDataProvider;
 
 public class VelocityCommandsTask extends CommandsTask {
 
     private final ProxyServer proxy;
 
-    public VelocityCommandsTask(final OkHttpClient httpClient, final Config config, final SpaceIsLogger logger, final ProxyServer proxy) {
-        super(httpClient, config, logger);
+    public VelocityCommandsTask(
+            final ProxyServer proxy,
+            final OkHttpClient httpClient,
+            final Config config,
+            final SpaceIsLogger logger,
+            final PlatformDataProvider platformDataProvider
+    ) {
+        super(httpClient, config, logger, platformDataProvider);
         this.proxy = proxy;
     }
 

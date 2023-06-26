@@ -30,14 +30,13 @@ public class RestoreCommandRequest extends SpaceIsRequest {
     private static final MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json; charset=utf-8");
     private static final RequestBody REQUEST_BODY = RequestBody.create("", JSON_MEDIA_TYPE);
 
-    private final OkHttpClient httpClient;
-    private final Config config;
-    private final SpaceIsLogger logger;
-
-    public RestoreCommandRequest(final OkHttpClient httpClient, final Config config, final SpaceIsLogger logger) {
-        this.httpClient = httpClient;
-        this.config = config;
-        this.logger = logger;
+    public RestoreCommandRequest(
+            final OkHttpClient httpClient,
+            final Config config,
+            final SpaceIsLogger logger,
+            final PlatformDataProvider platformDataProvider
+    ) {
+        super(httpClient, config, logger, platformDataProvider);
     }
 
     public void restore(final UUID commandId) throws RequestException {

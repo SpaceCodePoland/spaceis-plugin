@@ -21,6 +21,7 @@ import okhttp3.OkHttpClient;
 import pl.spaceis.plugin.config.Config;
 import pl.spaceis.plugin.logger.SpaceIsLogger;
 import pl.spaceis.plugin.request.GetCommandsRequest;
+import pl.spaceis.plugin.request.PlatformDataProvider;
 import pl.spaceis.plugin.request.RequestException;
 import pl.spaceis.plugin.request.RestoreCommandRequest;
 
@@ -30,9 +31,14 @@ public abstract class CommandsTask implements Runnable {
     private final RestoreCommandRequest restoreCommandRequest;
     private final SpaceIsLogger logger;
 
-    protected CommandsTask(final OkHttpClient httpClient, final Config config, final SpaceIsLogger logger) {
-        this.getCommandsRequest = new GetCommandsRequest(httpClient, config, logger);
-        this.restoreCommandRequest = new RestoreCommandRequest(httpClient, config, logger);
+    protected CommandsTask(
+            final OkHttpClient httpClient,
+            final Config config,
+            final SpaceIsLogger logger,
+            final PlatformDataProvider platformDataProvider
+    ) {
+        this.getCommandsRequest = new GetCommandsRequest(httpClient, config, logger, platformDataProvider);
+        this.restoreCommandRequest = new RestoreCommandRequest(httpClient, config, logger, platformDataProvider);
         this.logger = logger;
     }
 

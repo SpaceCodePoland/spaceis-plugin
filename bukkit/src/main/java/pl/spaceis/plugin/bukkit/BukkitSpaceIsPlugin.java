@@ -25,9 +25,10 @@ import pl.spaceis.plugin.config.ConfigLoader;
 import pl.spaceis.plugin.config.EmptyConfigFieldException;
 import pl.spaceis.plugin.config.Messages;
 import pl.spaceis.plugin.logger.SpaceIsLogger;
+import pl.spaceis.plugin.request.PlatformDataProvider;
 import pl.spaceis.plugin.resource.ResourceLoaderException;
 
-public class BukkitSpaceIsPlugin extends JavaPlugin {
+public class BukkitSpaceIsPlugin extends JavaPlugin implements PlatformDataProvider {
 
     private final OkHttpClient httpClient = new OkHttpClient.Builder().build();
 
@@ -41,7 +42,7 @@ public class BukkitSpaceIsPlugin extends JavaPlugin {
 
             Bukkit.getScheduler().runTaskTimerAsynchronously(
                     this,
-                    new BukkitCommandsTask(this, this.httpClient, config, logger),
+                    new BukkitCommandsTask(this, this.httpClient, config, logger, this),
                     0L,
                     config.taskInterval.getSeconds() * 20L
             );
@@ -59,4 +60,18 @@ public class BukkitSpaceIsPlugin extends JavaPlugin {
         this.httpClient.dispatcher().executorService().shutdown();
     }
 
+    @Override
+    public String getVersion() {
+        return this.getDescription().getVersion();
+    }
+
+    @Override
+    public String getEngineName() {
+        return "Bukkit";
+    }
+
+    @Override
+    public String getEngineVersion() {
+        return PlatformDataProvider.matchVersion(Bukkit.getBukkitVersion());
+    }
 }
